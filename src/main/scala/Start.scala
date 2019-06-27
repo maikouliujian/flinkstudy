@@ -4,6 +4,7 @@ object Start {
 
   def main(args: Array[String]): Unit = {
     val env: ExecutionEnvironment = ExecutionEnvironment.getExecutionEnvironment
+    println(env)
 
 
   }

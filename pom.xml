@@ -25,6 +25,8 @@
             <version>${scala.version}</version>
         </dependency>
 
+        <!--flink scala依赖-->
+
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-scala_2.11</artifactId>
@@ -41,6 +43,21 @@
             <version>${flink.version}</version>
         </dependency>
 
+        <!--flink java依赖-->
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-java</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-streaming-java_2.11</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
@@ -54,9 +71,12 @@
         </dependency>
 
     </dependencies>
-    <build>
-        <sourceDirectory>src/main/scala</sourceDirectory>
-        <testSourceDirectory>src/test/scala</testSourceDirectory>
+    <!--<build>
+        &lt;!&ndash;<sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>&ndash;&gt;
+
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
         <plugins>
 
             <plugin>
@@ -66,11 +86,12 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <!--<encoding>${project.build.sourceEncoding}</encoding>-->
+                    &lt;!&ndash;<encoding>${project.build.sourceEncoding}</encoding>&ndash;&gt;
                 </configuration>
             </plugin>
 
-            <plugin>
+
+            &lt;!&ndash;<plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>3.2.0</version>
@@ -82,7 +103,7 @@
                         </goals>
                         <configuration>
                             <args>
-                                <!--<arg>-make:transitive</arg>-->
+                                &lt;!&ndash;<arg>-make:transitive</arg>&ndash;&gt;
                                 <arg>-dependencyfile</arg>
                                 <arg>${project.build.directory}/.scala_dependencies</arg>
                             </args>
@@ -90,7 +111,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>&ndash;&gt;
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -120,9 +141,9 @@
                                 <filter>
                                     <artifact>*:*</artifact>
                                     <excludes>
-                                        <!--
+                                        &lt;!&ndash;
                                         zip -d learn_spark.jar META-INF/*.RSA META-INF/*.DSA META-INF/*.SF
-                                        -->
+                                        &ndash;&gt;
                                         <exclude>META-INF/*.SF</exclude>
                                         <exclude>META-INF/*.DSA</exclude>
                                         <exclude>META-INF/*.RSA</exclude>
@@ -140,7 +161,7 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
 
 
