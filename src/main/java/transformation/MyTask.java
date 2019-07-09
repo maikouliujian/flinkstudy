@@ -36,6 +36,9 @@ public class MyTask {
         });
 
         DataStream<Long> one = split.select("one");
+
+//        one.shuffle()
+//        one.rebalance()
         one.print();
 
 
