@@ -15,7 +15,7 @@
         <scala.version>2.11.2</scala.version>
         <scala.compat.version>2.11</scala.compat.version>
         <hadoop.version>2.6.2</hadoop.version>
-        <flink.version>1.6.0</flink.version>
+        <flink.version>1.8.0</flink.version>
     </properties>
 
     <dependencies>
@@ -68,6 +68,13 @@
                     <groupId>xml-apis</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-cassandra_2.11</artifactId>
+            <version>${flink.version}</version>
         </dependency>
 
     </dependencies>
