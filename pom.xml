@@ -102,6 +102,11 @@
             <artifactId>flink-connector-cassandra_2.11</artifactId>
             <version>${flink.version}</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
     </dependencies>
     <!--<build>

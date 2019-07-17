@@ -1,13 +1,4 @@
-import com.datastax.driver.core.ConsistencyLevel;
-import com.datastax.driver.mapping.Mapper;
-import org.apache.flink.api.common.functions.FlatMapFunction;
-import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.batch.connectors.cassandra.CassandraPojoInputFormat;
-import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.streaming.connectors.cassandra.CassandraSink;
-import org.apache.flink.util.Collector;
+
 
 /**
  * @author lj
