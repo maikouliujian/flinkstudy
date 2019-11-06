@@ -9,6 +9,7 @@ import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -131,7 +132,7 @@ public class Start {
                 .collect(toList());
 
 
-        /*List<CompletableFuture<String>> futureList = shops.stream()
+        /*List<CompletableFuture<String>> futureList = shops.flinks.stream()
                 .map(discountShop -> CompletableFuture.supplyAsync(
                         //异步方式取得商店中产品价格
                         () -> discountShop.getPrice(product), executor))
@@ -208,8 +209,31 @@ public class Start {
 
         stream.forEach(System.out::print);
 
+    }
 
 
+    @Test
+    public void start(){
+        long a = sequentialSum(5L);
+        System.out.println(a);
+    }
+
+
+    public Long sequentialSum(Long n){
+        return Stream.iterate(1L, i->i+1L)
+                .limit(n)
+                .parallel()
+                .reduce(0L,Long::sum);
+    }
+
+
+
+    @Test
+    public void test9(){
+        long[] numbers = LongStream.rangeClosed(1, 1000*10000).toArray();
+        ForkJoinTest forkJoinTest = new ForkJoinTest(numbers);
+        Long sum = new ForkJoinPool().invoke(forkJoinTest);
+        System.out.println(sum);//50000005000000
 
     }
 }
