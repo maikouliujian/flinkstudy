@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="flinkstudy" />
         <module name="flinktest" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="flinkstudy" target="1.8" />
       <module name="flinktest" target="1.8" />
     </bytecodeTargetLevel>
   </component>
