@@ -4,7 +4,7 @@ import org.apache.flink.streaming.api.scala.{DataStream, KeyedStream, StreamExec
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow
 
-object SockerTest {
+object SockerWordCountTest {
 
   def main(args: Array[String]): Unit = {
 
