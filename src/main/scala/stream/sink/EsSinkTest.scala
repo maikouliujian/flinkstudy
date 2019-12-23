@@ -8,7 +8,8 @@ import org.apache.flink.streaming.connectors.elasticsearch.{ElasticsearchSinkFun
 import org.apache.flink.streaming.connectors.elasticsearch6.ElasticsearchSink
 import org.apache.http.HttpHost
 import org.elasticsearch.client.Requests
-import stream.source.SourceTest.SensorReading
+import org.apache.flink.streaming.api.scala._
+import stream.state.SensorReading
 
 object EsSinkTest {
 

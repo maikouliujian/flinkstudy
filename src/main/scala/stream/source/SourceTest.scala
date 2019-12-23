@@ -6,13 +6,13 @@ import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.functions.source.SourceFunction
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011
-import stream.source.SourceTest.SensorReading
+import stream.state.SensorReading
 
 import scala.util.Random
 
 object SourceTest {
 
-  case class SensorReading(id:String,timestamp:Long,temperature:Double)
+
 
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment

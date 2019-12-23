@@ -1,7 +1,7 @@
 package stream.transform
 
 import org.apache.flink.streaming.api.scala._
-import stream.source.SourceTest.SensorReading
+import stream.state.SensorReading
 
 object Transform {
 

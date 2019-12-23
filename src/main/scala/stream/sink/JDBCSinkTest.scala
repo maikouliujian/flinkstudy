@@ -5,7 +5,8 @@ import java.sql.{Connection, DriverManager, PreparedStatement}
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.functions.sink.{RichSinkFunction, SinkFunction}
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
-import stream.source.SourceTest.SensorReading
+import org.apache.flink.streaming.api.scala._
+import stream.state.SensorReading
 
 object JDBCSinkTest {
 

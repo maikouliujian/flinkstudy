@@ -4,7 +4,8 @@ import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.connectors.redis.RedisSink
 import org.apache.flink.streaming.connectors.redis.common.config.FlinkJedisPoolConfig
 import org.apache.flink.streaming.connectors.redis.common.mapper.{RedisCommand, RedisCommandDescription, RedisMapper}
-import stream.source.SourceTest.SensorReading
+import org.apache.flink.streaming.api.scala._
+import stream.state.SensorReading
 
 object RedisSinkTest {
 
