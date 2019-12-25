@@ -5,6 +5,7 @@ import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.shaded.akka.org.jboss.netty.util.internal.ThreadLocalRandom;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.collector.selector.OutputSelector;
 import org.apache.flink.streaming.api.datastream.*;
@@ -13,12 +14,15 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 import flinks.stream.MySource;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
+import org.apache.flink.streaming.api.functions.async.AsyncFunction;
+import org.apache.flink.streaming.api.functions.async.ResultFuture;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MyTask {
 
@@ -278,18 +282,47 @@ public class MyTask {
 
         //sum
 
-        Integer[] integers = new Integer[]{1, 2, 3};
+//        Integer[] integers = new Integer[]{1, 2, 3};
+//
+//        DataStream<Integer> dataStream = env.fromElements(integers);
+//
+//        dataStream.keyBy(new KeySelector<Integer, Byte>() {
+//
+//            @Override
+//            public Byte getKey(Integer value) throws Exception {
+//                return 0;
+//            }
+//        }).sum(0).printToErr();
+
+        //max/maxBy/min/minBy
+
+//        Integer[] integers = new Integer[]{1, 2, 3};
+//
+//        DataStream<Integer> dataStream = env.fromElements(integers);
+//
+//        dataStream.keyBy(new KeySelector<Integer, Byte>() {
+//
+//            @Override
+//            public Byte getKey(Integer value) throws Exception {
+//                return 0;
+//            }
+//        }).max(0).printToErr();
+
+
+//TODO==============================异步操作符==========================================
+        Integer[] integers = new Integer[]{1, 2, 3, 4};
 
         DataStream<Integer> dataStream = env.fromElements(integers);
 
-        dataStream.keyBy(new KeySelector<Integer, Byte>() {
-
+        AsyncDataStream.orderedWait(dataStream, new AsyncFunction<Integer, Integer>() {
             @Override
-            public Byte getKey(Integer value) throws Exception {
-                return 0;
+            public void asyncInvoke(Integer input, ResultFuture<Integer> resultFuture) throws Exception {
+                Thread.sleep(ThreadLocalRandom.current().nextInt(5));
+                ArrayList<Integer> l = new ArrayList<>();
+                l.add(input);
+                resultFuture.complete(l);
             }
-        }).sum(0).printToErr();
-
+        }, 10, TimeUnit.MILLISECONDS).printToErr();
 
         env.execute("task");
 

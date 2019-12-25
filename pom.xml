@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.bigdata.test</groupId>
-    <artifactId>flinktest</artifactId>
+    <artifactId>flinkstudy</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -71,14 +71,11 @@
             <version>${flink.version}</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table_2.11</artifactId>
+            <artifactId>flink-table</artifactId>
             <version>${flink.version}</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.apache.flink</groupId>

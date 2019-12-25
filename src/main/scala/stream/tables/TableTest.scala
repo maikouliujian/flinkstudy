@@ -4,6 +4,8 @@ import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011
 
+import org.apache.flink.api.scala._
+
 object TableTest {
 
   //每 10 秒中渠道为 appstore 的个数
