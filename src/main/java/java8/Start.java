@@ -71,11 +71,19 @@ public class Start {
 
         //将执行器Execotor 作为第二个参数传递给 supplyAsync 工厂方法
         List<CompletableFuture<String>> futures = shops.stream()
-                .map(shop -> CompletableFuture.supplyAsync(
+                /*.map(shop -> CompletableFuture.supplyAsync(
                         () -> String.format("%s price is %.2f RMB",
                                 shop.getName(),
                                 shop.getPrice(product)), executor)
-                )
+                )*/
+                .map(shop -> CompletableFuture.supplyAsync(new Supplier<String>() {
+                    @Override
+                    public String get() {
+                        return String.format("%s price is %.2f RMB",
+                                shop.getName(),
+                                shop.getPrice(product));
+                    }
+                },executor))
                 .collect(toList());
         List<String> list = futures.stream()
                 .map(CompletableFuture::join)
