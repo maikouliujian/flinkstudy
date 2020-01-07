@@ -15,10 +15,11 @@
        <!-- <scala.version>2.11.0</scala.version>-->
         <!--<scala.compat.version>2.11</scala.compat.version>-->
         <hadoop.version>2.6.2</hadoop.version>
-        <flink.version>1.8.0</flink.version>
+        <flink.version>1.9.0</flink.version>
         <scala.binary.version>2.11</scala.binary.version>
         <kafka.version>2.2.0</kafka.version>
         <es.version>6.4.0</es.version>
+        <hive.version>1.2.0</hive.version>
     </properties>
 
     <dependencies>
@@ -95,19 +96,21 @@
         </dependency>
 
         <!-- Either... (for the old planner that was available before Flink 1.9) -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner_2.11</artifactId>
             <version>${flink.version}</version>
-<!--            <scope>provided</scope>-->
-        </dependency>
-        <!-- or.. (for the new Blink planner) -->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.flink</groupId>-->
-<!--            <artifactId>flink-table-planner-blink_2.11</artifactId>-->
-<!--            <version>${flink.version}</version>-->
-<!--            <scope>provided</scope>-->
+&lt;!&ndash;            <scope>provided</scope>&ndash;&gt;-->
+
+
 <!--        </dependency>-->
+<!--         or.. (for the new Blink planner)-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner-blink_2.11</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -224,6 +227,69 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-redis-client</artifactId>
             <version>3.5.2.CR3</version>
+        </dependency>
+
+<!--        Flink 在IDEA执行时的webui-->
+<!--        不过Flink IDEA中执行的webui 需要 flink-runtime-web 包的支持-->
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-runtime-web_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-avro -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-avro</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-hive_2.11</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Hadoop Dependencies -->
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-hadoop-compatibility_2.11</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Hive 1.2.1 is built with Hadoop 2.6.0.
+        We pick 2.6.5 which flink-shaded-hadoop is pre-built with,
+        but users can pick their own hadoop version, as long as it's compatible with Hadoop 2.6.0 -->
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-shaded-hadoop-2-uber</artifactId>
+            <version>2.6.5-8.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Hive Metastore -->
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-metastore</artifactId>
+            <version>${hive.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-exec</artifactId>
+            <version>${hive.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libfb303</artifactId>
+            <version>0.9.3</version>
         </dependency>
 
     </dependencies>

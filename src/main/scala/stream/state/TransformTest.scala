@@ -1,6 +1,6 @@
 package stream.state
 
-import org.apache.flink.api.common.functions.{FilterFunction, RichMapFunction}
+import org.apache.flink.api.common.functions.{FilterFunction, Partitioner, RichMapFunction}
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.scala._
 
@@ -33,6 +33,14 @@ object TransformTest {
 
     // 1. 聚合操作
      val stream1 = dataStream
+       //TODO 自定义分区
+//       .partitionCustom(new Partitioner[String] {
+//         override def partition(key: String, numPartitions: Int): Int = {
+//           // numPartitions 是下游算子的并发数
+//           key.hashCode % numPartitions
+//         }
+//       }, "id")
+
        .keyBy("id")
 //      .sum("temperature")
       .reduce( (x, y) => SensorReading(x.id, x.timestamp + 1, y.temperature + 10) )

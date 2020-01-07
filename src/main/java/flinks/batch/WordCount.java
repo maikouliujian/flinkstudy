@@ -14,7 +14,7 @@ public class WordCount {
     public static void main(String[] args) throws Exception {
 
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
-        DataSet<String> data = env.readTextFile("D:\\idea\\project\\flinkstudy\\data");
+        DataSet<String> data = env.readTextFile("D:\\idea\\project\\flinkstudy\\data\\test.txt");
         DataSet<String> source = data.flatMap((FlatMapFunction<String, String>) (value, out) -> {
             String[] split = value.split("\\s");
             for (String str : split) {
@@ -31,6 +31,9 @@ public class WordCount {
         sum.print();
 
         //env.execute("aaaa");
+
+
+        System.out.println(env.getExecutionPlan());
 
     }
 }
