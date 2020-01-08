@@ -17,6 +17,9 @@ public class Windowtest {
                 .map((MapFunction<Tuple2<Long, Long>, String>) longLongTuple2 -> "key:" + longLongTuple2.f0 + ",value:" + longLongTuple2.f1)
                 .print();
 
-        env.execute("execute");
+        //env.execute("execute");
+
+        //TODO 打印执行计划！！！！！！
+        System.out.println(env.getExecutionPlan());
     }
 }

@@ -67,6 +67,8 @@ public class BatchBroadcast {
 
         result.print();
 
+        env.execute("test");
+
 
     }
 }

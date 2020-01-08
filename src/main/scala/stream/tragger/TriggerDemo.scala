@@ -10,7 +10,7 @@ import org.apache.flink.streaming.api.windowing.triggers.ContinuousEventTimeTrig
   **/
 
 import org.apache.flink.api.scala._
-object TreiggerDemo {
+object TriggerDemo {
   def main(args: Array[String]): Unit = {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     val dataStream: DataStream[(Int, Int)] = env.fromCollection(List((1, 2), (3, 4), (1, 3)))

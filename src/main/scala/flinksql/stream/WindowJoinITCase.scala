@@ -1,9 +1,9 @@
 package flinksql.stream
 
-import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.TableEnvironment
 import org.apache.flink.table.api.java.StreamTableEnvironment
 import org.apache.flink.api.scala._
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.table.api.scala._
@@ -19,8 +19,8 @@ object WindowJoinITCase {
   def main(args: Array[String]): Unit = {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     // 创建table对象
-    //val tEnv = StreamTableEnvironment.create(env)
-    val tEnv = TableEnvironment.getTableEnvironment(env) //TODO 已经过期了！！！
+    val tEnv = StreamTableEnvironment.create(env)
+    //val tEnv = TableEnvironment.getTableEnvironment(env) //TODO 已经过期了！！！
 
     val sqlQuery =
       """
@@ -38,21 +38,21 @@ object WindowJoinITCase {
     data1.+=(("C", "L-5", 2100L))
     data1.+=(("A", "L-6", 10000L))
     data1.+=(("A", "L-7", 13000L))
-
-    val t1 = env.fromCollection(data1)
-      .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor[(String, String, Long)](Time.seconds(1)){
-        override def extractTimestamp(element: (String, String, Long)): Long = {
-          element._3 * 1000
-        }
-      })
-      .toTable(tEnv, 'key, 'id, 'rowtime)
-
-    tEnv.registerTable("T1", t1)
-
-    val t_r = tEnv.sqlQuery(sqlQuery)
-    val result = t_r.toAppendStream[Row]
-
-    result.print("sql_test")
+    import scala.collection.JavaConversions._
+//    val t1 = env.fromCollection(data1)
+//      .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor[(String, String, Long)](Time.seconds(1)){
+//        override def extractTimestamp(element: (String, String, Long)): Long = {
+//          element._3 * 1000
+//        }
+//      })
+//      .toTable(tEnv, 'key, 'id, 'rowtime)
+//
+//    tEnv.registerTable("T1", t1)
+//
+//    val t_r = tEnv.sqlQuery(sqlQuery)
+//    val result = t_r.toAppendStream[Row]
+//
+//    result.print("sql_test")
 //    result.addSink(sink)
     env.execute()
   }

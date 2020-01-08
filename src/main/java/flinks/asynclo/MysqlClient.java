@@ -60,15 +60,15 @@ public class MysqlClient {
     }
 
     // 测试代码
-    public static void main(String[] args) {
-        MysqlClient mysqlClient = new MysqlClient();
-
-        AsyncUser asyncUser = new AsyncUser();
-        asyncUser.setId("526");
-        long start = System.currentTimeMillis();
-        asyncUser = mysqlClient.query1(asyncUser);
-
-        System.out.println("end : " + (System.currentTimeMillis() - start));
-        System.out.println(asyncUser.toString());
-    }
+//    public static void main(String[] args) {
+//        MysqlClient mysqlClient = new MysqlClient();
+//
+//        AsyncUser asyncUser = new AsyncUser();
+//        asyncUser.setId("526");
+//        long start = System.currentTimeMillis();
+//        asyncUser = mysqlClient.query1(asyncUser);
+//
+//        System.out.println("end : " + (System.currentTimeMillis() - start));
+//        System.out.println(asyncUser.toString());
+//    }
 }

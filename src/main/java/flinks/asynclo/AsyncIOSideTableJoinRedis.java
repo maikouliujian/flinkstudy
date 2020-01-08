@@ -51,7 +51,7 @@ public class AsyncIOSideTableJoinRedis {
                 new JsonNodeDeserializationSchema(), Common.getProp());
 
         DataStream<JSONObject> input = env.addSource(source).map(value -> {
-            JSONObject jsonObject = new JSONObject(value);
+            JSONObject jsonObject = new JSONObject();
             return jsonObject;
         });
 

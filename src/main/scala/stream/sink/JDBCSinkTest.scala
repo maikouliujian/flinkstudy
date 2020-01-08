@@ -22,6 +22,10 @@ object JDBCSinkTest {
       })
 
 
+      .addSink(new MysqlSink)
+      //.writeUsingOutputFormat(new MysqlSink())
+
+
   }
 
 }

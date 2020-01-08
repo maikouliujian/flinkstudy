@@ -1,5 +1,9 @@
-package java8;
+package java8.futuretest;
 
+import java8.Discount;
+import java8.ForkJoinTest;
+import java8.Quote;
+import java8.Shop;
 import org.junit.Before;
 import org.junit.Test;
 
