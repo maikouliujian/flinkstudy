@@ -1,7 +1,7 @@
 package flinksql.stream
 
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
-import org.apache.flink.table.api.{Table, TableEnvironment}
+import org.apache.flink.table.api.{EnvironmentSettings, Table, TableEnvironment}
 import org.apache.flink.table.api.scala.StreamTableEnvironment
 import org.apache.flink.api.scala._
 import org.apache.flink.core.fs.FileSystem
@@ -15,7 +15,10 @@ object DataSet_DataStreamToTable {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
     // 2. 获取Table处理环境
-    val tableEnv: StreamTableEnvironment = TableEnvironment.getTableEnvironment(env)
+    //val tableEnv: StreamTableEnvironment = TableEnvironment.getTableEnvironment(env)
+
+    val bsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build()
+    val tableEnv = StreamTableEnvironment.create(env,bsSettings)
 
     // 3. 加载本地集合
     val dataStream: DataStream[Order1] = env.fromCollection(List(
@@ -37,9 +40,10 @@ object DataSet_DataStreamToTable {
 //    @param fieldDelim 各个字段的分隔符
 //    @param numFiles 写入的文件的个数
 //    @param writeMode 是否覆盖文件
-      table.writeToSink(new CsvTableSink("./data/score_sql.csv",",",1,FileSystem.WriteMode.OVERWRITE))
+   //   table.writeToSink(new CsvTableSink("./data/score_sql.csv",",",1,FileSystem.WriteMode.OVERWRITE))
     // 7.执行任务
     env.execute()
+
   }
 
   case class Order1(id:Long,proudct:String,amount:Int)

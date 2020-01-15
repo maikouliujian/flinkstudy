@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.source.{RichSourceFunction, SourceFunction}
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
-import org.apache.flink.table.api.{Table, TableEnvironment}
+import org.apache.flink.table.api.{EnvironmentSettings, Table, TableEnvironment}
 import org.apache.flink.table.api.scala.StreamTableEnvironment
 import org.apache.flink.api.scala._
 import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks
@@ -24,7 +24,8 @@ object StreamFlinkSqlDemo {
     //  1. 获取流处理运行环境
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     //    2. 获取Table运行环境
-    val tableEnv: StreamTableEnvironment = TableEnvironment.getTableEnvironment(env)
+    val bsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build()
+    val tableEnv = StreamTableEnvironment.create(env,bsSettings)
     //    3. 设置处理时间为`EventTime`
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
 

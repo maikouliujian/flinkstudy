@@ -2,7 +2,7 @@ package flinksql.stream
 
 import org.apache.flink.api.scala.ExecutionEnvironment
 import org.apache.flink.api.scala._
-import org.apache.flink.table.api.{Table, TableEnvironment}
+import org.apache.flink.table.api._
 import org.apache.flink.table.api.scala.BatchTableEnvironment
 import org.apache.flink.types.Row
 
@@ -12,7 +12,9 @@ object BatchFlinkSqlDemo {
     // 1. 获取一个批处理运行环境
     val env = ExecutionEnvironment.getExecutionEnvironment
     // 2. 获取一个Table运行环境
-    val tableEnv = TableEnvironment.getTableEnvironment(env)
+    //val bsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inBatchMode().build()
+    //val tableEnv = TableEnvironment.create(bsSettings)
+    val tableEnv = BatchTableEnvironment.create(env)
 
     // 4. 基于本地`Order`集合创建一个DataSet source
 
