@@ -17,6 +17,8 @@ import org.apache.flink.types.Row
 /**
   * @author lj
   * @createDate 2019/12/26 14:18
+  *
+  *            todo 看 https://blog.csdn.net/u013411339/article/details/88840356
   **/
 object TemporalJoinCase2 {
 
