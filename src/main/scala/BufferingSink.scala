@@ -64,6 +64,7 @@ class BufferingSink(threshold: Int = 0)
     checkpointedState = context.getOperatorStateStore.getListState(descriptor)
 
     // 如果是错误恢复状态, 获取ListState对象的值,并且累加到bufferedElements
+    import scala.collection.JavaConversions._
     if(context.isRestored) {
       for(element <- checkpointedState.get()) {
         bufferedElements += element

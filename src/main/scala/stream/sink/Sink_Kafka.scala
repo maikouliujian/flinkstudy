@@ -1,10 +1,11 @@
 package stream.sink
 
-import com.itheima.stream.datasource.DataSource_MySql.MySql_Source
+
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.api.scala._
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer010
+import stream.source.DataSource_MySql.MySql_Source
 
 object Sink_Kafka {
 

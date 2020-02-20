@@ -19,6 +19,13 @@ public class BatchBroadcast {
 
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
 
+        //开启avro序列化方式
+        env.getConfig().enableForceAvro();
+        //开启kyro序列化方式
+        env.getConfig().enableForceKryo();
+        //TODO 自定义序列化器
+        //env.getConfig().addDefaultKryoSerializer();
+
         //1、准备广播数据
         List<Tuple2<String,Integer>> datas = new ArrayList<>();
 

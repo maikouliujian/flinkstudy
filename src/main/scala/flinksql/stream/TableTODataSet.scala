@@ -2,8 +2,8 @@ package flinksql.stream
 
 import org.apache.flink.api.scala._
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
-import org.apache.flink.table.api.scala.StreamTableEnvironment
-import org.apache.flink.table.api.{Table, TableEnvironment}
+import org.apache.flink.table.api.scala.{BatchTableEnvironment, StreamTableEnvironment}
+import org.apache.flink.table.api.{EnvironmentSettings, Table, TableEnvironment}
 
 object TableTODataSet {
 
@@ -14,7 +14,8 @@ object TableTODataSet {
     //    2. 设置并行度
     env.setParallelism(1)
     //    3. 获取Table运行环境
-    val tableEnv = TableEnvironment.getTableEnvironment(env)
+    //val tableEnv = TableEnvironment.getTableEnvironment(env)
+    val tableEnv = BatchTableEnvironment.create(env)
     //    4. 加载本地集合
     val dataSet = env.fromCollection(List(
       (1L, 1, "Hello"),
