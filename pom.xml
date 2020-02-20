@@ -95,6 +95,14 @@
 <!--            <scope>provided</scope>-->
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-yarn -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-yarn_2.12</artifactId>
+            <version>${flink.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Either... (for the old planner that was available before Flink 1.9) -->
         <!--<dependency>
             <groupId>org.apache.flink</groupId>
