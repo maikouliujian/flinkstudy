@@ -11,7 +11,7 @@ import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.util.Collector
 import stream.state.SensorReading
 
-object WindowTest {
+object WindowTest1 {
 
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
@@ -29,7 +29,8 @@ object WindowTest {
       .assignTimestampsAndWatermarks(new MyTimeAssigner())
       .map(data => (data.id, data.temperature))
       .keyBy(0)
-      .window(SlidingEventTimeWindows.of(Time.seconds(15), Time.seconds(5), Time.seconds(-8))) //TODO offset -8 代表东8时区
+      //SlidingEventTimeWindows parameters must satisfy abs(offset) < slide and size > 0
+      .window(SlidingEventTimeWindows.of(Time.seconds(20), Time.seconds(10), Time.seconds(-8))) //TODO offset -8 代表东8时区
       // .timeWindow(Time.seconds(10)) //todo 底层也是调用 .window()
 
       //x代表同一分区的上一条数据，y代表当前这条数据

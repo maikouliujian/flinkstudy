@@ -45,31 +45,30 @@ object HotItems {
 
     //    val dataStream = env.readTextFile("D:\\Projects\\BigData\\UserBehaviorAnalysis\\HotItemsAnalysis\\src\\main\\resources\\com.atguigu.hotitem.UserBehavior.csv")
 
-   /* val dataStream = env.addSource( new FlinkKafkaConsumer[String]("bigdata",
-      new SimpleStringSchema(), properties) )
-      .map( data => {
+    val dataStream: DataStream[UserBehavior] = env.addSource(new FlinkKafkaConsumer[String]("bigdata",
+      new SimpleStringSchema(), properties))
+      .map(data => {
         val dataArray = data.split(",")
-        UserBehavior( dataArray(0).trim.toLong, dataArray(1).trim.toLong, dataArray(2).trim.toInt, dataArray(3).trim, dataArray(4).trim.toLong )
-      } )
-      .assignAscendingTimestamps( _.timestamp * 1000L )*/
+        UserBehavior(dataArray(0).trim.toLong, dataArray(1).trim.toLong, dataArray(2).trim.toInt, dataArray(3).trim, dataArray(4).trim.toLong)
+      })
+      .assignAscendingTimestamps(_.timestamp * 1000L)
 
     // 3. transform 处理数据
-//    val processedStream: DataStream[String] = dataStream
-//      .filter(_.behavior == "pv")
-//      .keyBy(_.itemId)
-//      .timeWindow(Time.hours(1), Time.minutes(5))
-//      .aggregate(new CountAgg, new WindowResult())
-//      .keyBy(_.windowEnd) // 按照窗口分组
-//      .process(new TopNHotItems(3))
-//
+    val processedStream = dataStream.filter(_.behavior == "pv")
+     .keyBy(_.itemId)
+     .timeWindow(Time.hours(1), Time.minutes(5))
+      .aggregate(new CountAgg, new WindowResult())
+     .keyBy(_.windowEnd) // 按照窗口分组
+      .process(new TopNHotItems(3))
+
 //    // 4. sink：控制台输出
-//    processedStream.print()
+    processedStream.print()
 
 
-     val dataStream = env.addSource( new FlinkKafkaConsumer[String]("bigdata",
-      new SimpleStringSchema(), properties))
-
-     dataStream.print("kafka")
+//     val dataStream = env.addSource( new FlinkKafkaConsumer[String]("bigdata",
+//      new SimpleStringSchema(), properties))
+//
+//     dataStream.print("kafka")
 
     env.execute("hot items job")
   }
