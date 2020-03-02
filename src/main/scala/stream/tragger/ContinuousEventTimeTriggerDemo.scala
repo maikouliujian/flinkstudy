@@ -31,8 +31,8 @@ object ContinuousEventTimeTriggerDemo {
     env.setParallelism(1)
 
     val kafkaConfig = new Properties()
-    kafkaConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-    kafkaConfig.put(ConsumerConfig.GROUP_ID_CONFIG, "test1");
+    kafkaConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
+    kafkaConfig.put(ConsumerConfig.GROUP_ID_CONFIG, "test1")
 
     val consumer = new FlinkKafkaConsumer[String]("topic1", new SimpleStringSchema(), kafkaConfig)
     import org.apache.flink.api.scala._
