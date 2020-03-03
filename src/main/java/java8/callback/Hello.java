@@ -1,4 +1,4 @@
-package callback;
+package java8.callback;
 
 /**
  * @author lj
