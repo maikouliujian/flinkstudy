@@ -33,7 +33,7 @@ object Anli2 {
     //    2. 获取Table运行环境
     val bsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build()
     val tabEnv = StreamTableEnvironment.create(env,bsSettings)
-
+    import org.apache.flink.api.scala._
     tabEnv.registerFunction("udtf",new MyUDTF)
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
 

@@ -12,6 +12,8 @@ import org.apache.flink.table.api.EnvironmentSettings
 import org.apache.flink.table.api.scala.StreamTableEnvironment
 import org.apache.kafka.clients.consumer.ConsumerConfig
 
+import org.apache.flink.api.scala._
+
 
 /***
   * 场景案例
@@ -31,6 +33,8 @@ object Anli1 {
     val bsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build()
     val tabEnv = StreamTableEnvironment.create(env,bsSettings)
 
+    import org.apache.flink.api.scala._
+
     tabEnv.registerFunction("latestTimeUdf",new LatestTimeUdf())
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
 
@@ -42,6 +46,7 @@ object Anli1 {
 
     val consumer=new FlinkKafkaConsumer011[String]("topic1",new SimpleStringSchema,kafkaConfig)
 
+    import org.apache.flink.api.scala._
     val ds=env.addSource(consumer)
       .map(x=>{
         val a=x.split(",")
