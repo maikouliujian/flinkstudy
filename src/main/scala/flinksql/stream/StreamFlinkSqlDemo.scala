@@ -96,6 +96,7 @@ object StreamFlinkSqlDemo {
     val table: Table = tableEnv.sqlQuery(sql)
     //    11. 将SQL的执行结果转换成DataStream再打印出来
     tableEnv.toAppendStream[Row](table).print()
+    //table.addSink()
     //    12. 启动流处理程序
     env.execute()
   }
