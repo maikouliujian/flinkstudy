@@ -21,4 +21,6 @@ public class AsyncUser {
         this.username = username;
         this.password = password;
     }
+
+
 }

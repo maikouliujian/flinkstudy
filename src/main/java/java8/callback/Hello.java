@@ -6,6 +6,7 @@ package java8.callback;
  **/
 public class Hello {
     public void run(CallBack callBack){
+        //相当于调用了haha方法！！！
         callBack.test("id");
     }
 
@@ -21,9 +22,3 @@ public class Hello {
     }
 }
 
-class Start{
-    public static void main(String[] args) {
-        Hello h = new Hello();
-        h.aa();
-    }
-}
