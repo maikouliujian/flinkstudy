@@ -1,6 +1,7 @@
 package flinksql.table
 
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
+import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.table.api.{EnvironmentSettings, Types}
 import org.apache.flink.table.api.scala.StreamTableEnvironment
 import org.apache.flink.table.descriptors.{Avro, Kafka, Rowtime, Schema}
@@ -21,6 +22,27 @@ object TableApi {
     //val tableEnv = TableEnvironment.getTableEnvironment(env) //TODO 已经过期了！！！
     val bsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build()
     val tableEnv = StreamTableEnvironment.create(env,bsSettings)
+
+
+    //设置ttl
+//    import org.apache.flink.api.common.state.StateTtlConfig
+//    import org.apache.flink.api.common.state.ValueStateDescriptor
+//    val ttlConfig: StateTtlConfig = StateTtlConfig
+//      .newBuilder(org.apache.flink.api.common.time.Time.seconds(1))
+//      .setUpdateType(StateTtlConfig.UpdateType.OnCreateAndWrite)
+//      .setStateVisibility(StateTtlConfig.StateVisibility.NeverReturnExpired).build
+//
+//    val stateDescriptor = new ValueStateDescriptor[String]("text state", classOf[String])
+//    stateDescriptor.enableTimeToLive(ttlConfig)
+    //旧的
+
+//    val config=tableEnv.queryConfig.withIdleStateRetentionTime(Time.minutes(1),Time.minutes(6))
+//    tabEnv.sqlUpdate('"',config)
+//    tabEnv.sqlQuery("",config)
+//    tab.writeToSink(sink,config)
+    //新的
+    val config = tableEnv.getConfig.setIdleStateRetentionTime(org.apache.flink.api.common.time.Time.minutes(1),
+                                                              org.apache.flink.api.common.time.Time.minutes(6))
 
     // access flink configuration
     val configuration = tableEnv.getConfig().getConfiguration()
@@ -74,8 +96,7 @@ object TableApi {
       .inAppendMode()
 
       // register as source, sink, or both and under a name
-      .registerTableSource("MyUserTable");
-
+      .registerTableSource("MyUserTable")
   }
 
 }
