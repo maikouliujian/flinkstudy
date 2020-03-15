@@ -70,6 +70,9 @@ object Anli2 {
 
     //dw.writeToSink(new PaulRetractStreamTableSink)
     //dw.addSink()
+    //TODO 在介绍源码分析之前先安利一个小技巧，很多时候比较难找到Flink SQL解析之后的任务具体执行过程，
+    // TODO 这个时候可以通过先打印其执行计划，使用方式：
+    println(tabEnv.explain(rsTab))
     env.execute()
 
   }
