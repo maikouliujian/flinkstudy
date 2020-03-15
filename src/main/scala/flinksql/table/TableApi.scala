@@ -2,9 +2,10 @@ package flinksql.table
 
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.time.Time
-import org.apache.flink.table.api.{EnvironmentSettings, Types}
+import org.apache.flink.table.api.{DataTypes, EnvironmentSettings, Types}
 import org.apache.flink.table.api.scala.StreamTableEnvironment
 import org.apache.flink.table.descriptors.{Avro, Kafka, Rowtime, Schema}
+import org.apache.flink.table.types.{DataType, FieldsDataType}
 
 /**table api 连接外部系统
   * @author lj
@@ -80,23 +81,28 @@ object TableApi {
     )
 
       // declare the schema of the table
+      //import org.apache.flink.table.api.DataTypes._
       .withSchema(
       new Schema()
-        .field("rowtime", Types.SQL_TIMESTAMP)
+        //TODO 过期
+        //.field("rowtime", Types.SQL_TIMESTAMP)
+        .field("rowtime",DataTypes.TIMESTAMP())
         .rowtime(new Rowtime()
           .timestampsFromField("timestamp")
           .watermarksPeriodicBounded(60000)
         )
         //.field("user", Types.LONG)
-        .field("user", Types.LONG)
-        .field("message", Types.STRING)
+        .field("user", DataTypes.FLOAT())
+        //.field("message", Types.STRING)
+        .field("message", DataTypes.STRING)
     )
 
       // specify the update-mode for streaming tables
       .inAppendMode()
-
       // register as source, sink, or both and under a name
-      .registerTableSource("MyUserTable")
+      //TODO 过期
+      //.registerTableSource("MyUserTable")
+        .createTemporaryTable("MyUserTable")
   }
 
 }
