@@ -34,7 +34,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 
   */
 import org.apache.flink.api.scala._
-case class Order2(orderId: String, orderTime: Long, gdsId: String, amount: Double, areaId: String)
+//case class Order2(orderId: String, orderTime: Long, gdsId: String, amount: Double, areaId: String)
 
 object Top10{
 
@@ -89,8 +89,7 @@ object Top10{
     val value: WindowedStream[Order2, String, windows.TimeWindow] = amountStream.keyBy(_.areaId)
       .timeWindow(Time.minutes(10))
     value.apply(new WindowFunction[Order2, Order2, String, windows.TimeWindow] {
-
-      override def apply(key: String, window: TimeWindow, input: Iterable[Order2], out: Collector[Order2]): Unit = {
+      override def apply(key: String, window: windows.TimeWindow, input: Iterable[Order2], out: Collector[Order2]): Unit = {
         println("==area===" + key)
         val topMap = new util.TreeSet[Order2](new Comparator[Order2] {
           override def compare(o1: Order2, o2: Order2): Int = (o1.amount-o2.amount).toInt
