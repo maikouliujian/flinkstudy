@@ -24,6 +24,8 @@ object Demo1 {
     kafkaConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
     kafkaConfig.put(ConsumerConfig.GROUP_ID_CONFIG, "gid1")
 
+    import org.apache.flink.api.scala._
+
     val consumer = new FlinkKafkaConsumer011[String]("topic1",
       new SimpleStringSchema, kafkaConfig)
 
@@ -46,7 +48,5 @@ object Demo1 {
     env.execute()
 
   }
-
-}
 
 }

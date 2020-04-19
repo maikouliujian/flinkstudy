@@ -23,6 +23,7 @@ object HHLDistinct {
   def main(args: Array[String]): Unit = {
     val env=StreamExecutionEnvironment.getExecutionEnvironment
     val tabEnv=StreamTableEnvironment.create(env)
+    import org.apache.flink.api.scala._
     //注册udaf
     tabEnv.registerFunction("hllDistinct",new HLLDistinctFunction)
     val kafkaConfig=new Properties()

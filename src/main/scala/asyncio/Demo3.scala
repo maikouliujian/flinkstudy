@@ -23,7 +23,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 case class Rule(actionType:String,b:Boolean)
 case class UserAction(userId:String,actionType:String,time:String)
 
-object Demo1 {
+object Demo3 {
 
   def main(args: Array[String]): Unit = {
 
@@ -34,6 +34,8 @@ object Demo1 {
     val kafkaConfig = new Properties();
     kafkaConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     kafkaConfig.put(ConsumerConfig.GROUP_ID_CONFIG, "test1");
+
+    import org.apache.flink.api.scala._
 
     val ruleConsumer = new FlinkKafkaConsumer011[String]("topic1", new SimpleStringSchema(), kafkaConfig)
     val ruleStream = env.addSource(ruleConsumer)

@@ -23,6 +23,7 @@ object CoGroupDemo{
     val kafkaConfig =new Properties()
     kafkaConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092")
     kafkaConfig.put(ConsumerConfig.GROUP_ID_CONFIG,"test1")
+    import org.apache.flink.api.scala._
     val orderConsumer =new FlinkKafkaConsumer011[String]("topic1",new SimpleStringSchema, kafkaConfig)
     val gdsConsumer =new FlinkKafkaConsumer011[String]("topic2",new SimpleStringSchema, kafkaConfig)
     val orderDs = env.addSource(orderConsumer)

@@ -16,7 +16,7 @@ case class Order1(orderId: String, userId: String, gdsId: String, amount: Double
 
 case class Address(addrId: String, userId: String, address: String, time: Long)
 
-case class RsInfo(orderId: String, userId: String, gdsId: String, amount: Double, addrId: String, address: String)
+//case class RsInfo(orderId: String, userId: String, gdsId: String, amount: Double, addrId: String, address: String)
 
 object IntervalJoinDemo {
 
@@ -30,6 +30,7 @@ object IntervalJoinDemo {
     kafkaConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
     kafkaConfig.put(ConsumerConfig.GROUP_ID_CONFIG, "test1")
 
+    import org.apache.flink.api.scala._
     val orderConsumer = new FlinkKafkaConsumer011[String]("topic1", new SimpleStringSchema, kafkaConfig)
     val addressConsumer = new FlinkKafkaConsumer011[String]("topic2", new SimpleStringSchema, kafkaConfig)
     val orderStream = env.addSource(orderConsumer)

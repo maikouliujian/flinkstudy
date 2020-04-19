@@ -29,6 +29,8 @@ object Distinct1 {
 
     kafkaConfig.put(ConsumerConfig.GROUP_ID_CONFIG,"test1")
 
+    import org.apache.flink.api.scala._
+
     val consumer=new FlinkKafkaConsumer[String]("topic1",new SimpleStringSchema,kafkaConfig)
 
     val ds=env.addSource(consumer)
