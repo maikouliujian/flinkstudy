@@ -15,7 +15,7 @@ class SayHelloActor extends Actor{
     case "exit" => {
       println("接收到exit指令，退出系统")
       context.stop(self) //停止actoref
-      context.system.awaitTermination()//退出actorsystem
+      //context.system.awaitTermination()//退出actorsystem
     }
     case _ => println("匹配不到")
 

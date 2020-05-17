@@ -15,8 +15,9 @@
        <!-- <scala.version>2.11.0</scala.version>-->
         <!--<scala.compat.version>2.11</scala.compat.version>-->
         <hadoop.version>2.6.2</hadoop.version>
-        <flink.version>1.9.0</flink.version>
-        <scala.binary.version>2.11</scala.binary.version>
+        <flink.version>1.10.0</flink.version>
+        <scala.binary.version>2.12</scala.binary.version>
+        <scala.version>2.12.4</scala.version>
         <kafka.version>2.2.0</kafka.version>
         <es.version>6.4.0</es.version>
         <hive.version>1.2.0</hive.version>
@@ -26,26 +27,26 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
-            <version>${scala.binary.version}</version>
+            <version>${scala.version}</version>
         </dependency>
 
         <!--flink scala依赖-->
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-scala_2.11</artifactId>
+            <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-scala_2.11</artifactId>
+            <artifactId>flink-scala_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-clients_2.11</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.flink</groupId>-->
+            <!--<artifactId>flink-clients_2.11</artifactId>-->
+            <!--<version>${flink.version}</version>-->
+        <!--</dependency>-->
 
         <!--flink java依赖-->
 
@@ -56,7 +57,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-java_2.11</artifactId>
+            <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
             <!--<scope>provided</scope>-->
         </dependency>
@@ -64,13 +65,13 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-kafka-0.11_2.11</artifactId>
+            <artifactId>flink-connector-kafka-0.11_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-statebackend-rocksdb_2.11</artifactId>
+            <artifactId>flink-statebackend-rocksdb_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
@@ -83,14 +84,14 @@
         <!-- Either... -->
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-api-java-bridge_2.11</artifactId>
+            <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
 <!--            <scope>provided</scope>-->
         </dependency>
         <!-- or... -->
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-api-scala-bridge_2.11</artifactId>
+            <artifactId>flink-table-api-scala-bridge_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
 <!--            <scope>provided</scope>-->
         </dependency>
@@ -98,7 +99,7 @@
         <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-yarn -->
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-yarn_2.12</artifactId>
+            <artifactId>flink-yarn_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
             <scope>test</scope>
         </dependency>
@@ -106,24 +107,25 @@
         <!-- Either... (for the old planner that was available before Flink 1.9) -->
        <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner_2.11</artifactId>
+            <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
 <!--           <scope>provided</scope>-->
      </dependency>
 <!--         or.. (for the new Blink planner)-->
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner-blink_2.11</artifactId>
+            <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
 <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-cep_2.11</artifactId>
+            <artifactId>flink-cep_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.bahir/flink-connector-redis -->
         <dependency>
             <groupId>org.apache.bahir</groupId>
             <artifactId>flink-connector-redis_2.11</artifactId>
@@ -132,7 +134,7 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-elasticsearch6_2.11</artifactId>
+            <artifactId>flink-connector-elasticsearch6_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
@@ -200,7 +202,7 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-cassandra_2.11</artifactId>
+            <artifactId>flink-connector-cassandra_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <dependency>
@@ -254,7 +256,7 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-hive_2.11</artifactId>
+            <artifactId>flink-connector-hive_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -263,7 +265,7 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-hadoop-compatibility_2.11</artifactId>
+            <artifactId>flink-hadoop-compatibility_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
 <!--            <scope>provided</scope>-->
         </dependency>
@@ -298,13 +300,45 @@
             <version>0.9.3</version>
         </dependency>
 
-    </dependencies>
-    <!--<build>
-        &lt;!&ndash;<sourceDirectory>src/main/scala</sourceDirectory>
-        <testSourceDirectory>src/test/scala</testSourceDirectory>&ndash;&gt;
+        <!--异步查询hbase-->
+         <dependency>
+            <groupId>org.hbase</groupId>
+            <artifactId>asynchbase</artifactId>
+            <version>1.8.2</version>
+        </dependency>
 
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.0-jre</version>
+        </dependency>
+
+        <!--求redis 客户端支持异步查询，可以使用io.lettuce包，支持redis不同模式：单点模式、sentinel模式、集群模式-->
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>5.0.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.24.Final</version>
+        </dependency>
+
+        <!--RoaringBitmap引入-->
+        <dependency>
+            <groupId>org.roaringbitmap</groupId>
+            <artifactId>RoaringBitmap</artifactId>
+            <version>0.8.6</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <!--<sourceDirectory>src/main/scala</sourceDirectory>-->
+        <!--<testSourceDirectory>src/test/scala</testSourceDirectory>-->
+
+        <!--<sourceDirectory>src/main/java</sourceDirectory>-->
+        <!--<testSourceDirectory>src/test/java</testSourceDirectory>-->
         <plugins>
 
             <plugin>
@@ -314,12 +348,12 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    &lt;!&ndash;<encoding>${project.build.sourceEncoding}</encoding>&ndash;&gt;
+                    <!--<encoding>${project.build.sourceEncoding}</encoding>-->
                 </configuration>
             </plugin>
 
 
-            &lt;!&ndash;<plugin>
+            <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>3.2.0</version>
@@ -331,7 +365,7 @@
                         </goals>
                         <configuration>
                             <args>
-                                &lt;!&ndash;<arg>-make:transitive</arg>&ndash;&gt;
+                                <!--<arg>-make:transitive</arg>-->
                                 <arg>-dependencyfile</arg>
                                 <arg>${project.build.directory}/.scala_dependencies</arg>
                             </args>
@@ -339,7 +373,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>&ndash;&gt;
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -369,9 +403,9 @@
                                 <filter>
                                     <artifact>*:*</artifact>
                                     <excludes>
-                                        &lt;!&ndash;
+                                        <!--
                                         zip -d learn_spark.jar META-INF/*.RSA META-INF/*.DSA META-INF/*.SF
-                                        &ndash;&gt;
+                                        -->
                                         <exclude>META-INF/*.SF</exclude>
                                         <exclude>META-INF/*.DSA</exclude>
                                         <exclude>META-INF/*.RSA</exclude>
@@ -389,8 +423,6 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>-->
-
-
+    </build>
 
 </project>

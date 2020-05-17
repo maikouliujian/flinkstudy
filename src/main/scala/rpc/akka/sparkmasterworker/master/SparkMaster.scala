@@ -1,7 +1,7 @@
 package rpc.akka.sparkmasterworker.master
 
 import akka.actor.{Actor, ActorSystem, Props}
-import com.atguigu.akka.sparkmasterworker.common._
+
 import com.typesafe.config.ConfigFactory
 import rpc.akka.sparkmasterworker.common._
 

@@ -1,7 +1,6 @@
 package stream.state
 
-import org.apache.flink.runtime.state.filesystem.FsStateBackend
-import org.apache.flink.runtime.state.memory.MemoryStateBackend
+
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.ProcessFunction
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor

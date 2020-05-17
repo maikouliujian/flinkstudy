@@ -1,7 +1,6 @@
 package rpc.akka.sparkmasterworker.worker
 
 import akka.actor.{Actor, ActorSelection, ActorSystem, Props}
-import com.atguigu.akka.sparkmasterworker.common.{HeartBeat, RegisterWorkerInfo, RegisteredWorkerInfo, SendHeartBeat}
 import com.typesafe.config.ConfigFactory
 import rpc.akka.sparkmasterworker.common.{HeartBeat, RegisterWorkerInfo, RegisteredWorkerInfo, SendHeartBeat}
 
