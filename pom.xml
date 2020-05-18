@@ -16,6 +16,8 @@
         <!--<scala.compat.version>2.11</scala.compat.version>-->
         <hadoop.version>2.6.2</hadoop.version>
         <flink.version>1.10.0</flink.version>
+        <scala.binary.version>2.11</scala.binary.version>
+        <flink.version>1.10.0</flink.version>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.4</scala.version>
         <kafka.version>2.2.0</kafka.version>
