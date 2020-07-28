@@ -35,6 +35,7 @@ public class App {
 
    public static class ES{
 
+
        private TransportClient client;
 
        @SuppressWarnings("unchecked")
