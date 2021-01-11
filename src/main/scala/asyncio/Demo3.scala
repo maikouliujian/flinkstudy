@@ -17,6 +17,8 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 /***
   * 以上就是简易版使用广播状态来实现维表关联的实现，由于将维表数据存储在广播状态中，但是广播状态是非key的，
   * 而rocksdb类型statebackend只能存储keyed状态类型，所以广播维表数据只能存储在内存中，因此在使用中需要注意维表的大小以免撑爆内存。
+ *
+ * https://blog.csdn.net/weixin_47364682/article/details/106149996
   * @param actionType
   * @param b
   */
@@ -47,7 +49,7 @@ object Demo3 {
     val broadcastStateDesc = new MapStateDescriptor[String, Rule]("broadcast-state", BasicTypeInfo.STRING_TYPE_INFO,
       TypeInformation.of(new TypeHint[Rule] {}))
 
-    val broadcastRuleStream = ruleStream.broadcast()
+    val broadcastRuleStream = ruleStream.broadcast(broadcastStateDesc)
 
 
     val userActionConsumer = new FlinkKafkaConsumer011[String]("topic2", new SimpleStringSchema(), kafkaConfig)
@@ -67,6 +69,15 @@ object Demo3 {
         }
       }
 
+      //这里可以把最新传来的广播变量存储起来，processElement中可以取出再次使用
+      /***
+       * 最后还有一点需要注意，processElement()方法获取的Context实例是ReadOnlyContext，说明只有在广播流一侧才能修改BroadcastState，
+       * 而数据流一侧只能读取BroadcastState。这提供了非常重要的一致性保证：假如数据流一侧也能修改BroadcastState的话，
+       * 不同的operator实例有可能产生截然不同的结果，对下游处理造成困扰。
+       * @param value
+       * @param ctx
+       * @param out
+       */
       override def processBroadcastElement(value: Rule, ctx: KeyedBroadcastProcessFunction[String, UserAction, Rule, String]#Context,
                                            out: Collector[String]): Unit = {
         ctx.getBroadcastState(broadcastStateDesc).put(value.actionType, value)

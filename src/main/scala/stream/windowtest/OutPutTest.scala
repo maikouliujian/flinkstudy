@@ -22,7 +22,7 @@ object OutPutTest {
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
     env.getConfig.setAutoWatermarkInterval(100L)
 
-    val stream2 = env.readTextFile("D:\\idea\\project\\flinkstudy\\data\\sensor.txt")
+    val stream2 = env.readTextFile("/Users/admin/IdeaProjects/mine/flinkstudy/data/sensor.txt")
       .map(data => {
         val dataArray = data.split(",")
         SensorReading(dataArray(0).trim, dataArray(1).trim.toLong,
@@ -34,13 +34,13 @@ object OutPutTest {
     })
 
     val stream3: DataStream[SensorReading] = stream2.process(new FreezingMonitor())
-
-
-
-    stream2.print("mainout")
+    val stream4 = stream3.map(x => x.temperature * 2).filter(x=> x>100)
     //获取测输出流
     stream3.getSideOutput(new OutputTag[String]("freezing-alarms")).print("output")
+    stream4.print("mainout")
     env.execute()
+
+
   }
 
 
@@ -52,10 +52,12 @@ object OutPutTest {
       // 温度在 32F 以下时，输出警告信息
       if (r.temperature < 32.0) {
         ctx.output(new OutputTag[String]("freezing-alarms"), s"Freezing Alarm for ${r.id}")
+      }else{
+        out.collect(r)
       }
 
-      // 所有数据直接常规输出到主流
-      out.collect(r)
+//      // 所有数据直接常规输出到主流
+//      out.collect(r)
 
     }
   }
