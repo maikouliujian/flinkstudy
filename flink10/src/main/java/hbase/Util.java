@@ -17,7 +17,7 @@ public class Util {
 	 * @param userId
 	 * @return
 	 */
-	public static byte[] userIdToByte(com.yidian.blacklist.UserId userId){
+	public static byte[] userIdToByte(UserId userId){
 
 		byte[] uerIdByte = Bytes.toBytes(userId.getUserId());
 		byte[] statusByte = Bytes.toBytes(userId.getStatus());
@@ -49,9 +49,9 @@ public class Util {
 	 * @param bytes
 	 * @return
 	 */
-	public static com.yidian.blacklist.UserId byteToUserId(byte[] bytes){
+	public static UserId byteToUserId(byte[] bytes){
 
-		com.yidian.blacklist.UserId ret=new com.yidian.blacklist.UserId();
+		UserId ret=new UserId();
 
 		byte[] userIds=new  byte[bytes.length-8];
 		byte[] status = new byte[8];
@@ -69,7 +69,7 @@ public class Util {
 	}
 
 
-	public byte[] getRow(long timestamp, com.yidian.blacklist.UserId userId) {
+	public byte[] getRow(long timestamp, UserId userId) {
 
 		byte[] bytes = Bytes.toBytes(userId.getUserId());
 		long reverseTimestamp = Long.MAX_VALUE - timestamp;
@@ -82,9 +82,9 @@ public class Util {
 	}
 
 
-	public static com.yidian.blacklist.UserId byteToRowkey(byte[] bytes){
+	public static UserId byteToRowkey(byte[] bytes){
 
-		com.yidian.blacklist.UserId ret=new com.yidian.blacklist.UserId();
+		UserId ret=new UserId();
 
 		byte[] userIds=new  byte[bytes.length-8];
 		byte[] ts = new byte[8];

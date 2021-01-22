@@ -45,7 +45,7 @@ public class HBaseReader {
 
 
 
-	HBaseReader(Configuration conf)  {
+	public HBaseReader(Configuration conf)  {
 
 		createConnection(conf);
 		tableName = conf.get("htable","spam_user_v2");
@@ -62,7 +62,7 @@ public class HBaseReader {
 	}
 
 
-	public byte[] getRow(long timestamp, com.yidian.blacklist.UserId userId) {
+	public byte[] getRow(long timestamp, UserId userId) {
 
 		byte[] bytes = Bytes.toBytes(userId.getUserId());
 		long reverseTimestamp = Long.MAX_VALUE - timestamp;
@@ -169,7 +169,7 @@ public class HBaseReader {
 	/**
 	  存储userIds
 	 */
-	public void store(List<com.yidian.blacklist.UserId> userIds){
+	public void store(List<UserId> userIds){
 
 		Table table = null;
 		ResultScanner scanner = null;
@@ -177,9 +177,9 @@ public class HBaseReader {
 			table = connections.getTable(TableName.valueOf(tableName));
 			List<Put> puts=new ArrayList<>(userIds.size());
 
-			for(com.yidian.blacklist.UserId u:userIds){
+			for(UserId u:userIds){
 				Put put=new Put(getRow(u.getTimetamp(),u));
-				put.addColumn(Bytes.toBytes(CF), Bytes.toBytes(USERID_QUALIFIER), com.yidian.blacklist.Util.userIdToByte(u));
+				put.addColumn(Bytes.toBytes(CF), Bytes.toBytes(USERID_QUALIFIER), Util.userIdToByte(u));
 				put.setDurability(Durability.ASYNC_WAL);
 				puts.add(put);
 			}
@@ -209,9 +209,9 @@ public class HBaseReader {
 	 * 获取最新的数据
 	 * @return
 	 */
-	public Set<com.yidian.blacklist.UserId> getLatestData(int ttl){
+	public Set<UserId> getLatestData(int ttl){
 
-		Set<com.yidian.blacklist.UserId> ret=new HashSet<>();
+		Set<UserId> ret=new HashSet<>();
 
 		Table table = null;
 		Scan scan = null;
@@ -241,7 +241,7 @@ public class HBaseReader {
 					Iterator<Result> ite = dataScanner.iterator();
 					while (ite.hasNext()) {
 						byte[] valueBytes = ite.next().getValue(Bytes.toBytes(CF), Bytes.toBytes(USERID_QUALIFIER));
-						com.yidian.blacklist.UserId userId = com.yidian.blacklist.Util.byteToUserId(valueBytes);
+						UserId userId = Util.byteToUserId(valueBytes);
 						ret.add(userId);
 					}
 					lastRowKey=rowKeyBytes;
@@ -257,7 +257,7 @@ public class HBaseReader {
 					Iterator<Result> ite = dataScanner.iterator();
 					while (ite.hasNext()) {
 						byte[] valueBytes = ite.next().getValue(Bytes.toBytes(CF), Bytes.toBytes(USERID_QUALIFIER));
-						com.yidian.blacklist.UserId userId = com.yidian.blacklist.Util.byteToUserId(valueBytes);
+						UserId userId = Util.byteToUserId(valueBytes);
 						ret.add(userId);
 					}
 					lastRowKey=rowKeyBytes;
@@ -298,8 +298,8 @@ public class HBaseReader {
 	 * @param endTimeStamp
 	 * @return
 	 */
-	public Set<com.yidian.blacklist.UserId> getData(Long startTimeStamp, long endTimeStamp){
-		Set<com.yidian.blacklist.UserId> ret=new HashSet<>();
+	public Set<UserId> getData(Long startTimeStamp, long endTimeStamp){
+		Set<UserId> ret=new HashSet<>();
 
 		Table table = null;
 		Scan scan = null;
@@ -337,7 +337,7 @@ public class HBaseReader {
 //				}
 
 				byte[] valueBytes = next.getValue(Bytes.toBytes(CF), Bytes.toBytes(USERID_QUALIFIER));
-				com.yidian.blacklist.UserId userId = com.yidian.blacklist.Util.byteToUserId(valueBytes);
+				UserId userId = Util.byteToUserId(valueBytes);
 
 //				System.out.println("row---"+cellUserId.getUserId());
 //				System.out.println("value---"+userId.getUserId());

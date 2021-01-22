@@ -20,7 +20,6 @@ import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.table.sinks.AppendStreamTableSink;
 import org.apache.flink.table.sinks.RetractStreamTableSink;
 import org.apache.flink.table.sinks.TableSink;
-import org.apache.flink.table.sinks.UpsertStreamTableSink;
 import org.apache.flink.table.types.DataType;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
@@ -33,11 +32,10 @@ import java.util.Properties;
 
 /**
  * @author lj
- * @createDate 2020/1/21 18:01
+ * @createDate 2020/1/21 17:57
  **/
-
 @Slf4j
-public class UpsertStreamTableSinkTest {
+public class RetractStreamTableSinkTest {
 
     public static void main(String[] args) throws Exception{
 
@@ -64,22 +62,45 @@ public class UpsertStreamTableSinkTest {
         DataStream<UserBrowseLog> browseStream=streamEnv
                 .addSource(new FlinkKafkaConsumer010<>(browseTopic, new SimpleStringSchema(), browseProperties))
                 .process(new BrowseKafkaProcessFunction());
-
         tableEnv.registerDataStream("source_kafka_browse_log",browseStream,"userID,eventTime,eventType,productID,productPrice,eventTimeTimestamp");
 
-        //4、注册UpsertStreamTableSink
+
+        //4、注册RetractStreamTableSink
         String[] sinkFieldNames={"userID","browseNumber"};
         DataType[] sinkFieldTypes={DataTypes.STRING(),DataTypes.BIGINT()};
-        UpsertStreamTableSink<Row> myRetractStreamTableSink = new MyUpsertStreamTableSink(sinkFieldNames,sinkFieldTypes);
+        RetractStreamTableSink<Row> myRetractStreamTableSink = new MyRetractStreamTableSink(sinkFieldNames,sinkFieldTypes);
         tableEnv.registerTableSink("sink_stdout",myRetractStreamTableSink);
+
 
         //5、连续查询
         //统计每个Uid的浏览次数
         String sql="insert into sink_stdout select userID,count(1) as browseNumber from source_kafka_browse_log where userID in ('user_1','user_2') group by userID ";
         tableEnv.sqlUpdate(sql);
 
+
         //6、开始执行
-        tableEnv.execute(UpsertStreamTableSinkTest.class.getSimpleName());
+        tableEnv.execute(RetractStreamTableSinkTest.class.getSimpleName());
+
+        /***
+         * 增加... (true,user_1,1)
+         * //user_1更新时被编译成两条消息
+         * //先是一条删除的消息
+         * 删除... (false,user_1,1)
+         * //再是一条增加的消息
+         * 增加... (true,user_1,2)
+         * //同理user_2
+         * 增加... (true,user_2,1)
+         * 删除... (false,user_1,2)
+         * 增加... (true,user_1,3)
+         * 删除... (false,user_1,3)
+         * 增加... (true,user_1,4)
+         * 删除... (false,user_2,1)
+         * 增加... (true,user_2,2)
+         * 删除... (false,user_1,4)
+         * 增加... (true,user_1,5)
+         */
+
+
     }
 
 
@@ -97,7 +118,7 @@ public class UpsertStreamTableSinkTest {
 
                 // 增加一个long类型的时间戳
                 // 指定eventTime为yyyy-MM-dd HH:mm:ss格式的北京时间
-                java.time.format.DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 OffsetDateTime eventTime = LocalDateTime.parse(log.getEventTime(), format).atOffset(ZoneOffset.of("+08:00"));
                 // 转换成毫秒时间戳
                 long eventTimeTimestamp = eventTime.toInstant().toEpochMilli();
@@ -111,18 +132,19 @@ public class UpsertStreamTableSinkTest {
     }
 
     /**
-     * 自定义UpsertStreamTableSink
+     * 自定义RetractStreamTableSink
+     *
      * Table在内部被转换成具有Add(增加)和Retract(撤消/删除)的消息流，最终交由DataStream的SinkFunction处理。
+     * DataStream里的数据格式是Tuple2类型,如Tuple2<Boolean, Row>。
      * Boolean是Add(增加)或Retract(删除)的flag(标识)。Row是真正的数据类型。
      * Table中的Insert被编码成一条Add消息。如Tuple2<True, Row>。
-     * Table中的Update被编码成一条Add消息。如Tuple2<True, Row>。
-     * 在SortLimit(即order by ... limit ...)的场景下，被编码成两条消息。一条删除消息Tuple2<False, Row>，一条增加消息Tuple2<True, Row>。
+     * Table中的Update被编码成两条消息。一条删除消息Tuple2<False, Row>，一条增加消息Tuple2<True, Row>。
      */
-    private static class MyUpsertStreamTableSink implements UpsertStreamTableSink<Row> {
+    private static class MyRetractStreamTableSink implements RetractStreamTableSink<Row> {
 
         private TableSchema tableSchema;
 
-        public MyUpsertStreamTableSink(String[] fieldNames, DataType[] fieldTypes) {
+        public MyRetractStreamTableSink(String[] fieldNames, DataType[] fieldTypes) {
             this.tableSchema = TableSchema.builder().fields(fieldNames,fieldTypes).build();
         }
 
@@ -131,20 +153,10 @@ public class UpsertStreamTableSinkTest {
             return tableSchema;
         }
 
-
-        // 设置Unique Key
-        // 如上SQL中有GroupBy，则这里的唯一键会自动被推导为GroupBy的字段
+        // 已过时
         @Override
-        public void setKeyFields(String[] keys) {}
-
-        // 是否只有Insert
-        // 如上SQL场景，需要Update，则这里被推导为isAppendOnly=false
-        @Override
-        public void setIsAppendOnly(Boolean isAppendOnly) {}
-
-        @Override
-        public TypeInformation<Row> getRecordType() {
-            return new RowTypeInfo(tableSchema.getFieldTypes(),tableSchema.getFieldNames());
+        public TableSink<Tuple2<Boolean, Row>> configure(String[] fieldNames, TypeInformation<?>[] fieldTypes) {
+            return null;
         }
 
         // 已过时
@@ -158,8 +170,8 @@ public class UpsertStreamTableSinkTest {
         }
 
         @Override
-        public TableSink<Tuple2<Boolean, Row>> configure(String[] fieldNames, TypeInformation<?>[] fieldTypes) {
-            return null;
+        public TypeInformation<Row> getRecordType() {
+            return new RowTypeInfo(tableSchema.getFieldTypes(),tableSchema.getFieldNames());
         }
 
         private static class SinkFunction extends RichSinkFunction<Tuple2<Boolean, Row>> {

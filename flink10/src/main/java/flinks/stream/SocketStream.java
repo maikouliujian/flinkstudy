@@ -26,7 +26,7 @@ public class SocketStream {
         // get input data
         DataStream<String> text = env.socketTextStream(hostName, port);
 
-        text.flatMap(new SocketStream.LineSplitter()).setParallelism(1)
+        text.flatMap(new LineSplitter()).setParallelism(1)
                 // group by the tuple field "0" and sum up tuple field "1"
                 .keyBy(0)
                 .sum(1).setParallelism(1)

@@ -1,5 +1,8 @@
-package com.yidian.blacklist;
-
+import hbase.BlackListCache;
+import hbase.BlackListCacheUtil;
+import hbase.HBaseReader;
+import hbase.UserId;
+import hbase.Util;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.junit.Test;
