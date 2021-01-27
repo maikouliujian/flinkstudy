@@ -2,7 +2,6 @@ package flinksql.apitest.sinktest
 
 import java.sql.{Connection, DriverManager, PreparedStatement}
 
-import com.atguigu.apitest.SensorReading
 import flinksql.apitest.SensorReading
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.functions.sink.{RichSinkFunction, SinkFunction}

@@ -20,14 +20,14 @@ public class BlackListCache  {
 
 
 
-	private static final Log LOG = LogFactory.getLog(com.yidian.blacklist.BlackListCache.class);
+	private static final Log LOG = LogFactory.getLog(BlackListCache.class);
 
 
 	/**
 	 *  blacklist cache
 	 */
 	private Set<String> blackListCache=new HashSet<>();
-	private com.yidian.blacklist.HBaseReader hBaseReader;
+	private HBaseReader hBaseReader;
 	private volatile boolean deleted=false;
 	/**
 	 * 默认TTL设置为30 天
@@ -42,7 +42,7 @@ public class BlackListCache  {
 		configuration.set("hbase.zookeeper.quorum","103-8-205-sh-100-F07.yidian.com,103-8-206-sh-100-F07.yidian.com,103-8-204-sh-100-F07.yidian.com");
 		configuration.set("hbase.zookeeper.property.clientPort", "2181");
 		configuration.set("zookeeper.znode.parent", "/hbase");
-		hBaseReader=new com.yidian.blacklist.HBaseReader(configuration);
+		hBaseReader=new HBaseReader(configuration);
 		latestTimeStamp= System.currentTimeMillis();
 	}
 
@@ -78,8 +78,8 @@ public class BlackListCache  {
 	 */
 	public Set<String> getCache(long startTimeStamp,long endTimeStamp){
 		Set<String> ret=new HashSet<>();
-		Set<com.yidian.blacklist.UserId> data = hBaseReader.getData(startTimeStamp, endTimeStamp);
-		for(com.yidian.blacklist.UserId u:data){
+		Set<UserId> data = hBaseReader.getData(startTimeStamp, endTimeStamp);
+		for(UserId u:data){
 			ret.add(u.getUserId());
 		}
 		return  ret;
@@ -93,9 +93,9 @@ public class BlackListCache  {
 	 * @return
 	 */
 	public long getInsertTime(String userId, long startTimeStamp,long endTimeStamp){
-		Set<com.yidian.blacklist.UserId> data = hBaseReader.getData(startTimeStamp, endTimeStamp);
+		Set<UserId> data = hBaseReader.getData(startTimeStamp, endTimeStamp);
 		System.out.println(data.size());
-		for(com.yidian.blacklist.UserId u:data){
+		for(UserId u:data){
 			//System.out.println(u.getUserId()+"----"+u.getTimetamp());
 			if (userId.equals(u.getUserId())){
 				return u.getTimetamp();
@@ -118,14 +118,14 @@ public class BlackListCache  {
 
 			// read new data from hbase
 			long newStartTime=System.currentTimeMillis();
-			Set<com.yidian.blacklist.UserId> newData=hBaseReader.getLatestData(TTL);
+			Set<UserId> newData=hBaseReader.getLatestData(TTL);
 
 			//增加或者删除内存中的新数据
-			for(com.yidian.blacklist.UserId t:newData){
-				if(t.getStatus()== com.yidian.blacklist.UserId.DELETE){
+			for(UserId t:newData){
+				if(t.getStatus()== UserId.DELETE){
 					blackListCache.remove(t.getUserId());
 					LOG.info("Delete remove user "+t.getUserId());
-				}else if(t.getStatus()== com.yidian.blacklist.UserId.ADD){
+				}else if(t.getStatus()== UserId.ADD){
 					blackListCache.add(t.getUserId());
 				}
 
@@ -139,11 +139,11 @@ public class BlackListCache  {
 			if(!deleted){
 				long oldStartTime=System.currentTimeMillis();
 				// read  timeout  data from hbase
-				Set<com.yidian.blacklist.UserId> oldData=hBaseReader.getData(currentTime-(TTL+1)*3600*24*1000L,currentTime-TTL*3600*24*1000L);
+				Set<UserId> oldData=hBaseReader.getData(currentTime-(TTL+1)*3600*24*1000L,currentTime-TTL*3600*24*1000L);
 				//Set<UserId> oldData=hBaseReader.getData(currentTime-(TTL)*3600*24*1000L,currentTime-(TTL+10)*3600*24*1000L);
 
 				// 删除内存中的数据
-				for(com.yidian.blacklist.UserId t:oldData){
+				for(UserId t:oldData){
 					blackListCache.remove(t.getUserId());
 				}
 
@@ -175,7 +175,7 @@ public class BlackListCache  {
 	 * 增加或者删除userId,通过设置status -1 or 1
 	 * @param userIdList
 	 */
-	public void store(List<com.yidian.blacklist.UserId> userIdList){
+	public void store(List<UserId> userIdList){
 
 		hBaseReader.store(userIdList);
 	}

@@ -1,6 +1,5 @@
 package flinksql.apitest.sinktest
 
-import com.atguigu.apitest.SensorReading
 import flinksql.apitest.SensorReading
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.connectors.redis.RedisSink

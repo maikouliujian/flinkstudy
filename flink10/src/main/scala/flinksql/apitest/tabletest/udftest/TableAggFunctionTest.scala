@@ -1,7 +1,5 @@
 package flinksql.apitest.tabletest.udftest
 
-import com.atguigu.apitest.SensorReading
-import com.atguigu.apitest.tabletest.udftest.AggregateFunctionTest.AvgTemp
 import flinksql.apitest.SensorReading
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor

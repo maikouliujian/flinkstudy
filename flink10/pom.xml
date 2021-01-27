@@ -27,6 +27,8 @@
         <kafka.version>2.2.0</kafka.version>
         <es.version>6.4.0</es.version>
         <hive.version>1.2.0</hive.version>
+        <ch.driver.version>0.1.40</ch.driver.version>
+        <async.client.version>2.10.4</async.client.version>
     </properties>
 
 
@@ -139,6 +141,19 @@
             <groupId>org.apache.bahir</groupId>
             <artifactId>flink-connector-redis_2.11</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <!-- clickhouse -->
+         <dependency>
+            <groupId>ru.yandex.clickhouse</groupId>
+            <artifactId>clickhouse-jdbc</artifactId>
+            <version>${ch.driver.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asynchttpclient</groupId>
+            <artifactId>async-http-client</artifactId>
+            <version>${async.client.version}</version>
         </dependency>
 
         <dependency>

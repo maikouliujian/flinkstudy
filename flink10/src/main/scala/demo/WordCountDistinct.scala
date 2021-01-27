@@ -46,7 +46,11 @@ object WordCountDistinct {
       })
       .keyBy(0)
       .window(TumblingProcessingTimeWindows.of(Time.days(1), Time.hours(-8)))
+      //用触发器是因为窗口很大，只能在窗口结束时触发计算，看到一次结果，这不满足需求
       .trigger(ContinuousProcessingTimeTrigger.of(Time.seconds(10)))
+      //使用驱逐器是因为窗口很大，
+      // 1、每次触发计算是触发窗口内所有的元素，不清除会重复计算；2、如果不清除，窗口中的元素越来越多，会引起oom；
+      // 3、因为在触发计算时间，已经把当前的所有元素的中间结果存到了state中，
       .evictor(TimeEvictor.of(Time.seconds(0), true))
       .process(new ProcessWindowFunction[(String, String), (String, String, Long), Tuple, TimeWindow] {
         /*
@@ -54,7 +58,7 @@ object WordCountDistinct {
         如果长时间的窗口，比如：一天的窗口，要是等到一天结束在输出结果，那还不如跑批。
         所有大窗口会添加trigger，以一定的频率输出中间结果。
         加evictor 是因为，每次trigger，触发计算是，窗口中的所有数据都会参与，所以数据会触发很多次，比较浪费，加evictor 驱逐已经计算过的数据，就不会重复计算了
-        驱逐了已经计算过的数据，导致窗口数据不完全，所以需要state 存储我们需要的中间结果
+        驱逐了已经计算过的数据，导致窗口数据不完全，所以需要state 存储我们需要的中间结果，清除之前的元素并不影响结果计算
          */
         var wordState: MapState[String, String] = _
         var pvCount: ValueState[Long] = _

@@ -2,7 +2,6 @@ package flinksql.apitest.sinktest
 
 import java.util
 
-import com.atguigu.apitest.SensorReading
 import flinksql.apitest.SensorReading
 import org.apache.flink.api.common.functions.RuntimeContext
 import org.apache.flink.streaming.api.scala._

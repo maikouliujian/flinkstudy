@@ -2,7 +2,6 @@ package flinksql.apitest.sinktest
 
 import java.util.Properties
 
-import com.atguigu.apitest.SensorReading
 import flinksql.apitest.SensorReading
 import org.apache.flink.api.common.serialization.{SimpleStringEncoder, SimpleStringSchema}
 import org.apache.flink.core.fs.Path
