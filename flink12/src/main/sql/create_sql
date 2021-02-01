@@ -1,0 +1,13 @@
+CREATE TABLE `test.test_2021_02_01`(
+uid string,
+c1 string,
+c2 string,
+c3 string,
+c4 string
+  )
+row format delimited
+fields terminated by ','
+stored as textfile
+LOCATION  '/user/hive/warehouse/test.db/test_2021_02_01'
+
+load data local inpath 'data.txt' into table test.test_2021_02_01;

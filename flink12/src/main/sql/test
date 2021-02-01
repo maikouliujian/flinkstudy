@@ -1,0 +1,15 @@
+
+select
+uid,
+month,
+the_sale
+from
+
+(select
+ uid,
+ concat_ws(',',c1,c2,c3,c4) as sale
+ from test.test_2021_02_01) a
+ lateral view posexplode(split(a.sale,',')) t as the_sale,sale_index
+ lateral view posexplode(split("1m,2m,3m,4m",',')) t as month,month_index
+ where sale_index = month_index
+
