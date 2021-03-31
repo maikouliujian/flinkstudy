@@ -473,7 +473,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.0-jre</version>
+            <version>29.0-jre</version>
         </dependency>
 
         <!--求redis 客户端支持异步查询，可以使用io.lettuce包，支持redis不同模式：单点模式、sentinel模式、集群模式-->
