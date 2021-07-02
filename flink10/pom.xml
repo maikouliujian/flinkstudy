@@ -25,7 +25,7 @@
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.4</scala.version>
         <kafka.version>2.2.0</kafka.version>
-        <es.version>6.4.0</es.version>
+        <es.version>6.8.15</es.version>
         <hive.version>1.2.0</hive.version>
         <ch.driver.version>0.1.40</ch.driver.version>
         <async.client.version>2.10.4</async.client.version>
